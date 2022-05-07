@@ -11,7 +11,8 @@ class TRACK_OT_export_to_clipboard(bpy.types.Operator):
     bl_options = {"REGISTER", "UNDO"}
 
     target: bpy.props.StringProperty()
+    scale: bpy.props.FloatProperty(default=1.0)
 
     def execute(self, context):
-        main(context, self.target)
+        main(context, self.target, self.scale)
         return {"FINISHED"}

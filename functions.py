@@ -39,9 +39,9 @@ def fill_nuke_template(clip, blend_path, scale=1.0):
     )
 
 
-def main(context, target):
+def main(context, target, scale):
     clip = get_active_movieclip_in_current_context(context)
 
     if target == "nuke":
-        nuke_node = fill_nuke_template(clip, context.blend_data.filepath)
+        nuke_node = fill_nuke_template(clip, context.blend_data.filepath, scale)
     context.window_manager.clipboard = nuke_node

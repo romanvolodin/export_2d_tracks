@@ -24,4 +24,6 @@ class TRACK_PT_export_panel(bpy.types.Panel):
 
         row = layout.row(align=True)
         row.scale_y = 1.5
-        row.operator("track.export_to_clipboard", text="Export").target = "nuke"
+        operator = row.operator("track.export_to_clipboard", text="Export")
+        operator.target = "nuke"
+        operator.scale = clip.export_scale

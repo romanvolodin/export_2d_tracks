@@ -19,7 +19,11 @@ class TRACK_PT_export_panel(bpy.types.Panel):
             return
 
         col.prop(clip, "export_to")
-        col.prop(clip, "export_reference_frame", text="Ref frame")
+
+        row = col.row(align=True)
+        row.prop(clip, "export_reference_frame", text="Ref frame")
+        row.operator("track.set_export_reference_frame", text="", icon="CHECKMARK")
+
         col.prop(clip, "export_scale", text="Scale")
 
         row = layout.row(align=True)

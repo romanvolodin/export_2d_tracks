@@ -15,6 +15,7 @@ def get_active_movieclip_in_current_context(context):
 def fill_nuke_template(clip, blend_path, scale=1.0):
     width, height = clip.size
     track_obj = clip.tracking.objects.active
+    clean_track_obj_name = track_obj.name.replace(".", "_")
     selected_tracks = [track for track in track_obj.tracks if track.select]
     tracks = []
     for track in selected_tracks:
@@ -23,7 +24,7 @@ def fill_nuke_template(clip, blend_path, scale=1.0):
         y_positions = [str(m.co.y * height * scale) for m in enabled_markers]
         tracks.append(
             nuke.track.substitute(
-                track_name=track.name,
+                track_name=track.name.replace(".", "_"),
                 start_frame=enabled_markers[0].frame,
                 x_positions=" ".join(x_positions),
                 y_positions=" ".join(y_positions),
@@ -34,7 +35,7 @@ def fill_nuke_template(clip, blend_path, scale=1.0):
         tracks="\n".join(tracks),
         reference_frame=clip.export_reference_frame,
         center=f"{width / 2} {height / 2}",
-        node_name=f"Blend_Tracker_{track_obj.name}",
+        node_name=f"Blend_Tracker_{clean_track_obj_name}",
         label=f"\"...[python {{'{blend_path}'[-35:]}}]\"",
     )
 

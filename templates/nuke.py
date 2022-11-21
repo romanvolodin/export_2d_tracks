@@ -1,10 +1,13 @@
 from string import Template
 
 
+first_chunk = Template("x$start_frame $positions")
+chunk = Template("x$first_frame $first_position x$second_frame $positions")
+
 track = Template(
     """ { {curve K x$start_frame 1} "$track_name"
- {curve x$start_frame $x_positions}
- {curve x$start_frame $y_positions}
+ {curve $x_positions}
+ {curve $y_positions}
  {curve K x$start_frame 0}
  {curve K x$start_frame 0} 0 0 0
  {curve x$start_frame 0} 0 0 -32 -32 32 32 -22 -22 22 22

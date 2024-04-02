@@ -24,6 +24,7 @@ def split_on_dropped_frames(markers):
 
 
 def fill_nuke_template(clip, blend_path, scale=1.0):
+    frame_offset = clip.frame_start - 1
     width, height = clip.size
     track_obj = clip.tracking.objects.active
     clean_track_obj_name = track_obj.name.replace(".", "_")
@@ -35,22 +36,22 @@ def fill_nuke_template(clip, blend_path, scale=1.0):
         first_chunk, *rest_chunks = chunked_markers
         x_positions = [
             nuke.first_chunk.substitute(
-                start_frame=first_chunk[0].frame,
+                start_frame=first_chunk[0].frame + frame_offset,
                 positions=" ".join([str(m.co.x * width * scale) for m in first_chunk]),
             )
         ]
         y_positions = [
             nuke.first_chunk.substitute(
-                start_frame=first_chunk[0].frame,
+                start_frame=first_chunk[0].frame + frame_offset,
                 positions=" ".join([str(m.co.y * height * scale) for m in first_chunk]),
             )
         ]
         for chunk in rest_chunks:
             x_positions.append(
                 nuke.chunk.substitute(
-                    first_frame=chunk[0].frame,
+                    first_frame=chunk[0].frame + frame_offset,
                     first_position=chunk[0].co.x * width * scale,
-                    second_frame=chunk[1].frame,
+                    second_frame=chunk[1].frame + frame_offset,
                     positions=" ".join(
                         [str(m.co.x * width * scale) for m in chunk[1:]]
                     ),
@@ -58,9 +59,9 @@ def fill_nuke_template(clip, blend_path, scale=1.0):
             )
             y_positions.append(
                 nuke.chunk.substitute(
-                    first_frame=chunk[0].frame,
+                    first_frame=chunk[0].frame + frame_offset,
                     first_position=chunk[0].co.y * height * scale,
-                    second_frame=chunk[1].frame,
+                    second_frame=chunk[1].frame + frame_offset,
                     positions=" ".join(
                         [str(m.co.y * height * scale) for m in chunk[1:]]
                     ),
@@ -69,7 +70,7 @@ def fill_nuke_template(clip, blend_path, scale=1.0):
         tracks.append(
             nuke.track.substitute(
                 track_name=track.name.replace(".", "_"),
-                start_frame=first_chunk[0].frame,
+                start_frame=first_chunk[0].frame + frame_offset,
                 x_positions=" ".join(x_positions),
                 y_positions=" ".join(y_positions),
             )

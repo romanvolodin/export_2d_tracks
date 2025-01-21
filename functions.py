@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from .templates import nuke
 
 
@@ -24,6 +26,7 @@ def split_on_dropped_frames(markers):
 
 
 def fill_nuke_template(clip, blend_path, scale=1.0):
+    posix_blend_path = Path(blend_path).as_posix()
     frame_offset = clip.frame_start - 1
     width, height = clip.size
     track_obj = clip.tracking.objects.active
@@ -81,7 +84,7 @@ def fill_nuke_template(clip, blend_path, scale=1.0):
         reference_frame=clip.export_reference_frame,
         center=f"{width / 2} {height / 2}",
         node_name=f"Blend_Tracker_{clean_track_obj_name}",
-        label=f"\"...[python {{'{blend_path}'[-35:]}}]\"",
+        label=f"\"...[python {{'{posix_blend_path}'[-35:]}}]\"",
     )
 
 

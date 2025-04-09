@@ -9,7 +9,7 @@ track = Template(
  {curve $x_positions}
  {curve $y_positions}
  {curve K x$start_frame 0}
- {curve K x$start_frame 0} 0 0 0
+ {curve K x$start_frame 0} 1 1 1
  {curve x$start_frame 0} 0 0 -32 -32 32 32 -22 -22 22 22
  {}
  {}

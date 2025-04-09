@@ -31,3 +31,6 @@ class TRACK_PT_export_panel(bpy.types.Panel):
         operator = row.operator("track.export_to_clipboard", text="Export")
         operator.target = "nuke"
         operator.scale = clip.export_scale
+        
+        row = layout.row(align=True)
+        row.operator("track.export_to_file", text="Export to file")

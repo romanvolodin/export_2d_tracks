@@ -19,6 +19,35 @@ class TRACK_OT_export_to_clipboard(bpy.types.Operator):
         return {"FINISHED"}
 
 
+class TRACK_OT_export_to_file(bpy.types.Operator):
+    bl_idname = "track.export_to_file"
+    bl_label = "Export 2D Tracks"
+
+    filepath: bpy.props.StringProperty(
+        name="File Path",
+        description="Путь к файлу",
+        subtype='FILE_PATH'
+    )
+
+    def execute(self, context):
+        data_to_write = "2D track data will be here.\n"
+
+        try:
+            with open(self.filepath, 'w', encoding='utf-8') as file:
+                file.write(data_to_write)
+        except Exception as e:
+            self.report({'ERROR'}, f"Error: {str(e)}")
+        
+        return {'FINISHED'}
+
+    def invoke(self, context, event):
+        if not self.filepath:
+            self.filepath = "export.nk"
+
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
+
 class TRACK_OT_set_export_ref_frame(bpy.types.Operator):
     """Set current frame as export reference frame"""
 

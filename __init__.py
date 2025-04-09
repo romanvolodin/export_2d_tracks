@@ -1,6 +1,7 @@
 import bpy
 
 from .operators import TRACK_OT_export_to_clipboard
+from .operators import TRACK_OT_export_to_file
 from .operators import TRACK_OT_set_export_ref_frame
 from .panel import TRACK_PT_export_panel
 
@@ -17,6 +18,7 @@ bl_info = {
 classes = (
     TRACK_PT_export_panel,
     TRACK_OT_export_to_clipboard,
+    TRACK_OT_export_to_file,
     TRACK_OT_set_export_ref_frame,
 )
 
